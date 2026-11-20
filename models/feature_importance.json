@@ -1,0 +1,17 @@
+{
+  "num__age": 0.9437784405709653,
+  "cat__smoking_status_smokes": 0.6056403305947476,
+  "cat__smoking_status_Unknown": 0.47885875871721156,
+  "num__hypertension": 0.3856376097818917,
+  "num__heart_disease": 0.3325208555354366,
+  "num__avg_glucose_level": 0.3267282025744167,
+  "cat__ever_married_No": 0.2676095027841946,
+  "num__bmi": 0.259675998113605,
+  "cat__work_type_Never_worked": 0.2245605112987608,
+  "cat__work_type_Self-employed": 0.17722594249784282,
+  "cat__gender_Male": 0.17625551987694912,
+  "cat__work_type_children": 0.17091400027078177,
+  "cat__smoking_status_formerly smoked": 0.16132518532869605,
+  "cat__smoking_status_never smoked": 0.1460168263206403,
+  "cat__Residence_type_Rural": 0.13427708663258317
+}

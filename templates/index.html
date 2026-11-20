@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stroke Risk — Explainable AI Demo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Explainable AI-Based Stroke Risk Prediction</h1>
+    <p>Personalized Preventive Healthcare Recommendation System</p>
+    <div class="notice">Educational ML demonstration — not a medical diagnosis or treatment recommendation.</div>
+  </header>
+
+  <section class="card">
+    <h2>Enter patient profile</h2>
+    <form method="post">
+      <div class="grid">
+        <label>Age
+          <input type="number" name="age" min="1" max="120" step="1" value="55" required>
+        </label>
+
+        <label>Hypertension
+          <select name="hypertension">
+            <option value="0">No</option><option value="1">Yes</option>
+          </select>
+        </label>
+
+        <label>Heart disease
+          <select name="heart_disease">
+            <option value="0">No</option><option value="1">Yes</option>
+          </select>
+        </label>
+
+        <label>Average glucose level
+          <input type="number" name="avg_glucose_level" min="40" max="500" step="0.1" value="110" required>
+        </label>
+
+        <label>BMI
+          <input type="number" name="bmi" min="10" max="80" step="0.1" value="24" required>
+        </label>
+
+        <label>Smoking status
+          <select name="smoking_status">
+            <option value="never smoked">Never smoked</option>
+            <option value="formerly smoked">Formerly smoked</option>
+            <option value="smokes">Smokes</option>
+            <option value="Unknown">Unknown</option>
+          </select>
+        </label>
+
+        <label>Gender
+          <select name="gender"><option>Male</option><option>Female</option><option>Other</option></select>
+        </label>
+
+        <label>Ever married
+          <select name="ever_married"><option>Yes</option><option>No</option></select>
+        </label>
+
+        <label>Work type
+          <select name="work_type">
+            <option>Private</option><option>Self-employed</option><option>Govt_job</option>
+            <option>children</option><option>Never_worked</option>
+          </select>
+        </label>
+
+        <label>Residence
+          <select name="Residence_type"><option>Urban</option><option>Rural</option></select>
+        </label>
+      </div>
+      <button type="submit">Predict & Explain</button>
+    </form>
+  </section>
+
+  {% if result %}
+  {% if result.error %}
+  <section class="card error"><b>Error:</b> {{ result.error }}</section>
+  {% else %}
+  <section class="card result">
+    <h2>Prediction result</h2>
+    <div class="risk">
+      <span class="score">{{ result.probability }}%</span>
+      <span class="band">{{ result.band }} demo risk band</span>
+    </div>
+    <p>Selected model: <b>{{ result.model }}</b></p>
+    <p class="small">The probability is a model output, not an individual clinical probability.</p>
+  </section>
+
+  <section class="card">
+    <h2>Why did the model flag these factors?</h2>
+    <ul>
+      {% for name, reason in result.explanations %}
+      <li><b>{{ name }}:</b> {{ reason }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Personalized preventive-health prompts</h2>
+    <ul>
+      {% for item in result.recommendations %}
+      <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+  {% endif %}
+
+  <section class="card">
+    <h2>Model evaluation</h2>
+    <p>Models are compared on the bundled demonstration dataset.</p>
+    <table>
+      <tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th><th>ROC-AUC</th></tr>
+      {% for name, m in metrics.results.items() %}
+      <tr>
+        <td>{{ name }}</td><td>{{ m.accuracy }}</td><td>{{ m.precision }}</td>
+        <td>{{ m.recall }}</td><td>{{ m.f1 }}</td><td>{{ m.roc_auc }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </section>
+
+  <footer>
+    <p>For academic demonstration only. Replace the demo dataset with a properly sourced dataset before research evaluation.</p>
+  </footer>
+</div>
+</body>
+</html>
